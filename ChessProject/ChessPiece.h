@@ -12,7 +12,7 @@ public:
 	ChessPiece(bool isWhite, string type);
 	virtual ~ChessPiece();
 	virtual char createCharForString() const = 0;
-	virtual vector<Location> getMovePath(const Location& source, const Location& dest) const = 0;
+	virtual vector<Location>* getMovePath(const Location& source, const Location& dest) const = 0;
 	bool isWhite();
 	string getType();
 

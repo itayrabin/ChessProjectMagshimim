@@ -19,33 +19,22 @@ void King::setIsInCheck(bool isInCheck)
 	_isInCheck = isInCheck;
 }
 
-vector<Location> King::getMovePath(const Location& source, const Location& dest) const
+vector<Location>* King::getMovePath(const Location& source, const Location& dest) const
 {
-	Location** rez = nullptr;
-	int difX = 0, difY = 0;
+	vector<Location>* rez = nullptr;
+	int* dif = source.dif(dest);
 
-	difX = abs(source.getX() - dest.getX());
-	difY = abs()
-
-	if (source.getX() + 1 == dest.getX()) //move king 1 step to the right
+	if (abs(dif[0]) <= 1 && abs(dif[1] <= 1))
 	{
-		if (source.getY() == dest.getY() || source.getY() + 1 == source.getX() || source.getY() - 1 == source.getX()) //all good with the rows
+		rez = new vector<Location>;
+		if (!(dif[0] == 0 && dif[1] == 0))
 		{
-			rez = new Location*[2];
-			rez[0] = new Location(dest.getX(), dest.getY(), nullptr);
-			rez[1] = nullptr;
+			rez->push_back(dest);
 		}
 	}
 
-	else if (source.getX() - 1 == dest.getX()) //1 to the left
-	{
-		if (source.getY() == dest.getY() || source.getY() + 1 == source.getX() || source.getY() - 1 == source.getX()) //all good with the rows
-		{
-			rez = new Location*[2];
-			rez[0] = new Location(dest.getX(), dest.getY(), nullptr);
-			rez[1] = nullptr;
-		}
-	}
+	delete[] dif;
+	return rez;
 }
 
 char King::createCharForString() const
