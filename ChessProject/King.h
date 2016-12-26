@@ -10,7 +10,7 @@ public:
 	bool isInCheck() const;
 	void setIsInCheck(bool isInCheck);
 	virtual char createCharForString() const;
-	virtual Location** getMovePath(const Location& source, const Location& dest) const;
+	virtual vector<Location> getMovePath(const Location& source, const Location& dest) const;
 
 private:
 	bool _isInCheck;

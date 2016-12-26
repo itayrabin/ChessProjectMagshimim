@@ -13,6 +13,7 @@ public:
 	int getX() const;
 	int getY() const;
 	ChessPiece* getPieceInLoc() const;
+	int* dif(const Location& other);
 
 private:
 	int _x;
