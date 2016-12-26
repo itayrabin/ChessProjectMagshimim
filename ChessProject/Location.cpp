@@ -1,5 +1,4 @@
 #include "Location.h"
-#include <cmath>
 
 Location::Location(int x, int y, ChessPiece* pieceInLoc)
 {
@@ -31,11 +30,11 @@ ChessPiece* Location::getPieceInLoc() const
 	return _pieceInLoc;
 }
 
-int* Location::dif(const Location& other)
+int* Location::dif(const Location& other) const
 {
 	int* rez = new int[2];
-	rez[0] = abs(_x - other._x);
-	rez[1] = abs(_y - other._y);
+	rez[0] = _x - other._x;
+	rez[1] = _y - other._y;
 
 	return rez;
 }
