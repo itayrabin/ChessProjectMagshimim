@@ -14,6 +14,8 @@ public:
 	int getY() const;
 	ChessPiece* getPieceInLoc() const;
 	int* dif(const Location& other) const;
+	
+	void setPieceInLoc(ChessPiece* piece);
 
 private:
 	int _x;

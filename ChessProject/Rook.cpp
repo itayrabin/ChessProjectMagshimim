@@ -1,7 +1,7 @@
 #include "Rook.h"
 #include <cmath>
 
-Rook::Rook(string type, bool isWhite) : ChessPiece(isWhite, type)
+Rook::Rook(bool isWhite) : ChessPiece(isWhite, "Rook")
 {
 	
 }
@@ -72,7 +72,7 @@ vector<Location>* Rook::getMovePath(const Location& source, const Location& dest
 		}
 		else
 		{
-			for (int i = 1; i < i <= abs(source.getX() - dest.getX()); i++)//cheking if moving down
+			for (int i = 1; i <= abs(source.getX() - dest.getX()); i++)//cheking if moving down
 			{
 				path->push_back(Location(source.getX() + i, source.getY(), nullptr));//creating the path
 			}

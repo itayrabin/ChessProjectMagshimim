@@ -1,10 +1,10 @@
-#ifndef KING.H
-#define KING.H
+#ifndef KING_H
+#define KING_H
 #include "ChessPiece.h"
 
 class King : public ChessPiece {
 public:
-	King(string type, bool isWhite);
+	King( bool isWhite);
 	~King();
 
 	bool isInCheck() const;

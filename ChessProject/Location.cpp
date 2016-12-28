@@ -38,3 +38,8 @@ int* Location::dif(const Location& other) const
 
 	return rez;
 }
+
+void Location::setPieceInLoc(ChessPiece* piece)
+{
+	_pieceInLoc = piece;
+}

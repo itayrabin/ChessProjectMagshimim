@@ -10,7 +10,7 @@ using namespace std;
 class Rook: public ChessPiece
 {
 public:
-	Rook(string type,bool isWhite);
+	Rook(bool isWhite);
 	~Rook();
 	virtual char createCharForString() const;
 	virtual vector<Location>* getMovePath(const Location& source, const Location& dest) const;
