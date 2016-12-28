@@ -1,6 +1,12 @@
 #include "Rook.h"
 #include <cmath>
 
+/**
+This function is creating a Rook object
+input:
+	bool is white - true if white, false otherwise
+
+*/
 Rook::Rook(bool isWhite) : ChessPiece(isWhite, "Rook")
 {
 	
