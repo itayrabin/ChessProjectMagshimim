@@ -28,14 +28,14 @@ Board::~Board()
 		{
 			if (_board[i][j] != nullptr)
 			{
-				delete _board[i][j]; //deleting the memory allocated
+				delete _board[i][j]; //deleting each ChessPiece
 			}
 		}
 
-		delete[] _board[i]; //deleting the memory allocated
+		delete[] _board[i]; //deleting the entire row
 	}
 
-	delete[] _board; //deleting the memory allocated
+	delete[] _board; //deleting the entire board
 }
 
 /**
@@ -57,7 +57,7 @@ void Board::createBoard()
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			if (j == 3 || j == 4)
+			if (j == 3 && i == 0) //add 1 black king
 			{
 				_board[i][j] = new King(false);
 
@@ -81,7 +81,7 @@ void Board::createBoard()
 	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
-			if (j == 3 || j == 4)
+			if (j == 3 && i == BOARD_SIZE - 1) //add 1 white king
 			{
 				_board[i][j] = new King(true);
 
@@ -100,7 +100,7 @@ send to the frontend
 input:
 	none
 output:
-	cahr* - te string for the start
+	char* - te string for the start
 
 */
 char* Board::createStringForStart()
@@ -155,7 +155,7 @@ void Board::move(const Location& src, const Location& dest)
 	if (_cache1 != nullptr)//checking if there is cache1
 	{
 		//freeing the cache1
-		_cache1->setPieceInLoc(nullptr);
+		_cache1->setPieceInLoc(nullptr); //dont free the ChessPiece it keeps
 		delete _cache1;
 		_cache1 = nullptr;
 	}
@@ -163,7 +163,7 @@ void Board::move(const Location& src, const Location& dest)
 	if (_cache2 != nullptr)
 	{
 		//freeing the cache2
-		_cache2->setPieceInLoc(nullptr);
+		_cache2->setPieceInLoc(nullptr); //dont free the ChessPiece it keeps
 		delete _cache2;
 		_cache2 = nullptr;
 	}
@@ -243,9 +243,9 @@ int Board::checkTurn(const Location& source, const Location& dest)
 		return BAD_MOVE_DEST;
 	}
 
-	int rez = checkCanMove(source, dest);//cehkinbg if a valid move for the piece
+	int rez = checkCanMove(source, dest);//checking if a valid move for the piece
 
-	if (rez != GOOD_MOVE)
+	if (rez != GOOD_MOVE) //checkCanMove checks for piece's path and if the src and dest are the same
 	{
 		return rez;//retuning error if there is
 	}
@@ -257,7 +257,7 @@ int Board::checkTurn(const Location& source, const Location& dest)
 	bool isInCheck = checkCheck(king);
 	if (isInCheck)
 	{
-		//if tere is self check reverting the move and returning the error code
+		//if there is self check reverting the move and returning the error code
 		revertMove(); 
 		king->setPieceInLoc(NULL);
 		delete king;
@@ -281,7 +281,7 @@ int Board::checkTurn(const Location& source, const Location& dest)
 
 	king->setPieceInLoc(NULL);
 	delete king;
-	_isWhiteTurn = !_isWhiteTurn;//chenging the turn
+	_isWhiteTurn = !_isWhiteTurn;//changing the turn
 	return GOOD_MOVE;//returning good move 
 }
 
@@ -299,7 +299,7 @@ output:
 int Board::checkCanMove(const Location& source, const Location& dest)
 {
 	vector<Location>* v = _board[source.getX()][source.getY()]->getMovePath(source, dest); //getting the answer from getMovePath
-	if (v == nullptr)//if null ' the piece cant do that move
+	if (v == nullptr)//if null the piece cant do that move
 	{
 		return BAD_MOVE_PIECE;
 	}

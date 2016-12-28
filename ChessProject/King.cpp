@@ -50,12 +50,12 @@ output:
 vector<Location>* King::getMovePath(const Location& source, const Location& dest) const
 {
 	vector<Location>* rez = nullptr;
-	int* dif = source.dif(dest);
+	int* dif = source.dif(dest); //get the offset between the src and dest
 
-	if (abs(dif[0]) <= 1 && abs(dif[1] <= 1))
+	if (abs(dif[0]) <= 1 && abs(dif[1] <= 1)) //if it's in range of king
 	{
-		rez = new vector<Location>;
-		if (!(dif[0] == 0 && dif[1] == 0))
+		rez = new vector<Location>; //create the vector
+		if (!(dif[0] == 0 && dif[1] == 0)) //make sure it's not the same place
 		{
 			rez->push_back(dest);
 		}
