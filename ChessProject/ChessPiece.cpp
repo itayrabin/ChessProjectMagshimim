@@ -1,6 +1,5 @@
 #include "ChessPiece.h"
 
-
 ChessPiece::ChessPiece(bool isWhite, string type)
 {
 	_isWhite = isWhite;
@@ -13,12 +12,12 @@ ChessPiece::~ChessPiece()
 
 }
 
-bool ChessPiece::isWhite()
+bool ChessPiece::isWhite() const
 {
 	return _isWhite;
 }
 
-string ChessPiece::getType()
+string ChessPiece::getType() const
 {
 	return _type;
 }

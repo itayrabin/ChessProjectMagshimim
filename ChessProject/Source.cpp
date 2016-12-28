@@ -1,4 +1,5 @@
 #include "Pipe.h"
+#include "Board.h"
 #include <iostream>
 #include <thread>
 
@@ -32,36 +33,43 @@ void main()
 	}
 	
 
-	char msgToGraphics[1024];
+	
 	// msgToGraphics should contain the board string accord the protocol
 	// YOUR CODE
-
-	strcpy_s(msgToGraphics, "rnbkqbnrpppppppp################################PPPPPPPPRNBKQBNR1"); // just example...
+	Board board;
 	
-	p.sendMessageToGraphics(msgToGraphics);   // send the board string
+	p.sendMessageToGraphics(board.createStringForStart());   // send the board string
 
 	// get message from graphics
 	string msgFromGraphics = p.getMessageFromGraphics();
+	char* response = new char[2];
+	response[1] = '\0';
+
+	Location* src;
+	Location* dest;
 
 	while (msgFromGraphics != "quit")
 	{
 		// should handle the string the sent from graphics
 		// according the protocol. Ex: e2e4           (move e2 to e4)
-		
-		// YOUR CODE
-		strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation
+		src = new Location(7 - (msgFromGraphics[1] - '1'), msgFromGraphics[0] - 'a', nullptr);
+		dest = new Location(7 - (msgFromGraphics[3] - '1'), msgFromGraphics[2] - 'a', nullptr);
+		response[0] = board.checkTurn(*src, *dest) + '0';
+		//strcpy_s(msgToGraphics, "YOUR CODE"); // msgToGraphics should contain the result of the operation
 
 		/******* JUST FOR EREZ DEBUGGING ******/
-		int r = rand() % 10; // just for debugging......
-		msgToGraphics[0] = (char)(1 + '0');
-		msgToGraphics[1] = 0;
+		//int r = rand() % 10; // just for debugging......
+		//msgToGraphics[0] = (char)(1 + '0');
+		//msgToGraphics[1] = 0;
 		/******* JUST FOR EREZ DEBUGGING ******/
 
 
 		// return result to graphics		
-		p.sendMessageToGraphics(msgToGraphics);   
+		p.sendMessageToGraphics(response);   
 
 		// get message from graphics
+		delete src;
+		delete dest;
 		msgFromGraphics = p.getMessageFromGraphics();
 	}
 

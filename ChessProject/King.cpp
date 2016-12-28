@@ -1,8 +1,9 @@
 #include "King.h"
 #include <cmath>
 
-King::King(string type, bool isWhite) : ChessPiece(isWhite, type)
+King::King(bool isWhite) : ChessPiece(isWhite, "King")
 {
+	_isInCheck = false;
 }
 
 King::~King()

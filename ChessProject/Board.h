@@ -22,7 +22,7 @@ public:
 	~Board();
 
 	int checkTurn(const Location& source, const Location& dest);
-	string createStringForStart();
+	char* createStringForStart();
 
 private:
 	ChessPiece*** _board;
@@ -32,8 +32,9 @@ private:
 
 	void createBoard();
 	int checkCanMove(const Location& src, const Location& dest);
-	bool checkSelfCheck();
-	bool checkEnemyCheck();
+	bool checkCheck(Location* king);
+	void revertMove();
+	Location* findKing(bool isWhite);
 	void move(const Location& src, const Location& dest);
 };
 

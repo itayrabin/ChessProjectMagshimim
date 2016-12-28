@@ -6,6 +6,8 @@
 #include <vector>
 
 using namespace std;
+
+class Location;
 class ChessPiece
 {
 public:
@@ -13,8 +15,8 @@ public:
 	virtual ~ChessPiece();
 	virtual char createCharForString() const = 0;
 	virtual vector<Location>* getMovePath(const Location& source, const Location& dest) const = 0;
-	bool isWhite();
-	string getType();
+	bool isWhite() const;
+	string getType() const;
 
 private:
 	string _type;
