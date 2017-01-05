@@ -87,3 +87,5 @@ vector<Location>* Rook::getMovePath(const Location& source, const Location& dest
 
 	return path;
 }
+
+

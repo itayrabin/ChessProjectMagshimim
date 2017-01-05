@@ -1,5 +1,5 @@
-#ifndef ROOK_H
-#define ROOK_H
+#ifndef KNIGHT_H
+#define KNIGHT_H
 
 #include <string>
 #include <vector>
@@ -7,14 +7,14 @@
 
 using namespace std;
 
-class Rook: public ChessPiece
+class Knight : public ChessPiece
 {
 public:
-	Rook(bool isWhite);
-	~Rook();
+	Knight(bool isWhite);
+	~Knight();
 	virtual char createCharForString() const;
 	virtual vector<Location>* getMovePath(const Location& source, const Location& dest) const;
-	
+
 };
 
 #endif
