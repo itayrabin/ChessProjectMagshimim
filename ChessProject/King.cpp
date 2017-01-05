@@ -47,7 +47,7 @@ input:
 output:
 	vector of locations of the move path
 */
-vector<Location>* King::getMovePath(const Location& source, const Location& dest) const
+vector<Location>* King::getMovePath(const Location& source, const Location& dest)
 {
 	vector<Location>* rez = nullptr;
 	int* dif = source.dif(dest); //get the offset between the src and dest

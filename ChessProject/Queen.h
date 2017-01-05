@@ -6,7 +6,7 @@ public:
 	Queen(bool isWhite);
 	~Queen();
 	virtual char createCharForString() const;
-	vector<Location>* getMovePath(const Location& src, const Location& dest) const;
+	vector<Location>* getMovePath(const Location& src, const Location& dest);
 };
 
 #endif

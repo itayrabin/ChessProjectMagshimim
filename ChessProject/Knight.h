@@ -13,7 +13,7 @@ public:
 	Knight(bool isWhite);
 	~Knight();
 	virtual char createCharForString() const;
-	virtual vector<Location>* getMovePath(const Location& source, const Location& dest) const;
+	virtual vector<Location>* getMovePath(const Location& source, const Location& dest);
 
 };
 

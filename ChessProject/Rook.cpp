@@ -37,7 +37,7 @@ input:
 output:
 	empty vector if same location, null if cant move to that direction
 */
-vector<Location>* Rook::getMovePath(const Location& source, const Location& dest) const
+vector<Location>* Rook::getMovePath(const Location& source, const Location& dest)
 {
 	vector<Location>* path = new vector<Location>;
 	if (source.getX() == dest.getX() && source.getY() == dest.getY())//checking if in same place

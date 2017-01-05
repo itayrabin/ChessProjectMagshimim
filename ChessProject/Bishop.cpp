@@ -19,7 +19,7 @@ char Bishop::createCharForString() const
 }
 
 
-vector<Location>* Bishop::getMovePath(const Location& source, const Location& dest) const
+vector<Location>* Bishop::getMovePath(const Location& source, const Location& dest)
 {
 	int* arr = source.dif(dest);
 	int two = 0;
@@ -57,7 +57,7 @@ vector<Location>* Bishop::getMovePath(const Location& source, const Location& de
 		}
 
 			
-		for (int i = 1; i <= arr[0]; i++)
+		for (int i = 1; i <= abs(arr[0]); i++)
 		{
 			path->push_back(Location(source.getX() + i*one, source.getY()+i*two, nullptr));//creating the path
 		}

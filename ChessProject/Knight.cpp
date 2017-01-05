@@ -17,7 +17,7 @@ char Knight::createCharForString() const
 }
 
 
-vector<Location>* Knight::getMovePath(const Location& source, const Location& dest) const
+vector<Location>* Knight::getMovePath(const Location& source, const Location& dest)
 {
 	int* arr = source.dif(dest);
 	vector<Location>* path = new vector<Location>;

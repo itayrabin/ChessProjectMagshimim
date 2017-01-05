@@ -7,7 +7,8 @@ using namespace std;
 void main()
 {
 	srand(time_t(NULL));
-
+	system("start chessGraphics");
+	Sleep(1500);
 	
 	Pipe p;
 	bool isConnect = p.connect();

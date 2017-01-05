@@ -53,45 +53,74 @@ void Board::createBoard()
 		_board[i] = new ChessPiece*[BOARD_SIZE]; //intalizing the array
 	}
 
-	for (int i = 0; i < 2; i++)//adding black side
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if (j == 3 && i == 0) //add 1 black king
-			{
-				_board[i][j] = new King(false);
+	//for (int i = 0; i < 2; i++)//adding black side
+	//{
+	//	for (int j = 0; j < BOARD_SIZE; j++)
+	//	{
+	//		if (j == 3 && i == 0) //add 1 black king
+	//		{
+	//			_board[i][j] = new King(false);
+	//
+	//		}
+	//		else
+	//		{
+	//			_board[i][j] = new Rook(false);
+	//		}
+	//	}
+	//}
+	//
+	//for (int i = 2; i < BOARD_SIZE - 2; i++)//adding nulls for empty spaces
+	//{
+	//	for (int j = 0; j < BOARD_SIZE; j++)
+	//	{
+	//		_board[i][j] = nullptr;
+	//	}
+	//}
+	//
+	//for (int i = BOARD_SIZE - 2; i < BOARD_SIZE; i++) //adding white side
+	//{
+	//	for (int j = 0; j < BOARD_SIZE; j++)
+	//	{
+	//		if (j == 3 && i == BOARD_SIZE - 1) //add 1 white king
+	//		{
+	//			_board[i][j] = new King(true);
+	//
+	//		}
+	//		else
+	//		{
+	//			_board[i][j] = new Rook(true);
+	//		}
+	//	}
+	//}
 
-			}
+	_board[0][0] = new Rook(false);
+	_board[0][1] = new Knight(false);
+	_board[0][2] = new Bishop(false);
+	_board[0][3] = new Queen(false);
+	_board[0][4] = new King(false);
+	_board[0][5] = new Bishop(false);
+	_board[0][6] = new Knight(false);
+	_board[0][7] = new Rook(false);
+
+	for (int i = 1; i < 7; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (i == 1 || i == 6)
+				_board[i][j] = new Pawn(i == 1 ? false : true);
 			else
-			{
-				_board[i][j] = new Rook(false);
-			}
+				_board[i][j] = nullptr;
 		}
 	}
 
-	for (int i = 2; i < BOARD_SIZE - 2; i++)//adding nulls for empty spaces
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			_board[i][j] = nullptr;
-		}
-	}
-
-	for (int i = BOARD_SIZE - 2; i < BOARD_SIZE; i++) //adding white side
-	{
-		for (int j = 0; j < BOARD_SIZE; j++)
-		{
-			if (j == 3 && i == BOARD_SIZE - 1) //add 1 white king
-			{
-				_board[i][j] = new King(true);
-
-			}
-			else
-			{
-				_board[i][j] = new Rook(true);
-			}
-		}
-	}
+	_board[7][0] = new Rook(true);
+	_board[7][1] = new Knight(true);
+	_board[7][2] = new Bishop(true);
+	_board[7][3] = new Queen(true);
+	_board[7][4] = new King(true);
+	_board[7][5] = new Bishop(true);
+	_board[7][6] = new Knight(true);
+	_board[7][7] = new Rook(true);
 }
 
 /*

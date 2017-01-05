@@ -8,7 +8,7 @@ public:
 	~Bishop();
 
 	virtual char createCharForString() const;
-	virtual vector<Location>* getMovePath(const Location& source, const Location& dest) const;
+	virtual vector<Location>* getMovePath(const Location& source, const Location& dest);
 
 private:
 	bool _isInCheck;

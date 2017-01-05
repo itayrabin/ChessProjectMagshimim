@@ -11,6 +11,7 @@ public:
 
 private:
 	bool _isFirstStep;
+	bool checkNum(int toCheck, int lim, bool equel);
 };
 
 #endif
