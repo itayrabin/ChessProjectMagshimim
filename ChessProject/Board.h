@@ -21,7 +21,7 @@ public:
 	Board();
 	~Board();
 
-	int checkTurn(const Location& source, const Location& dest);
+	int checkTurn(const Location& source, Location& dest);
 	char* createStringForStart();
 
 private:

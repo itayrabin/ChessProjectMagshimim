@@ -251,7 +251,7 @@ output:
 	te move code (see board.h defines)
 
 */
-int Board::checkTurn(const Location& source, const Location& dest)
+int Board::checkTurn(const Location& source, Location& dest)
 {
 	//checking if the index is valid
 	if (source.getX() > 7 || source.getY() > 7 || dest.getX() > 7 || dest.getY() > 7
@@ -272,7 +272,9 @@ int Board::checkTurn(const Location& source, const Location& dest)
 		return BAD_MOVE_DEST;
 	}
 
+	dest.setPieceInLoc(_board[dest.getX()][dest.getY()]);
 	int rez = checkCanMove(source, dest);//checking if a valid move for the piece
+	dest.setPieceInLoc(nullptr);
 
 	if (rez != GOOD_MOVE) //checkCanMove checks for piece's path and if the src and dest are the same
 	{

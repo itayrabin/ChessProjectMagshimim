@@ -22,72 +22,46 @@ vector<Location>* Pawn::getMovePath(const Location& src, const Location& dest)
 
 	if (difs[0] == 0 && difs[1] == 0)
 	{
-		return new vector < Location > ;
+		locs = new vector<Location>;
 	}
 
-	if (checkNum(difs[0], 2, false))
+	else if (dest.getPieceInLoc() != nullptr) //there is an enemy in the dest
 	{
-		delete difs;
-		return locs;
+		if (checkNum(difs[0], 1) && abs(difs[1]) == 1) //moves diagonally to eat someone
+		{
+			locs = new vector<Location>; //create the path
+			locs->push_back(dest);
+		}
 	}
 
-	if (checkNum(difs[1], 1, false))
+	else if (difs[1] == 0)
 	{
-		delete difs;
-		return locs;
+		if (checkNum(difs[0], 1))
+		{
+			locs = new vector<Location>;
+			locs->push_back(dest);
+		}
+
+		else if (checkNum(difs[0], 2) && _isFirstStep)
+		{
+			locs = new vector<Location>;
+			locs->push_back(Location(src.getX() - difs[0] / 2, src.getY(), nullptr));
+			locs->push_back(dest);
+		}
 	}
 
-
-	if (checkNum(difs[1], 1, true) && checkNum(difs[0], 1, true) && dest.getPieceInLoc() != nullptr && !(dest.getPieceInLoc()->isWhite()))
-	{
-		locs = new vector<Location>();
-		locs->push_back(dest);
-		delete difs;
-		return locs;
-	}
-
-
-	if (checkNum(difs[0], 2, true) && _isFirstStep)
-	{
-
-		locs = new vector<Location>();
-		locs->push_back(Location(src.getX() - (difs[0] / 2), src.getY(), nullptr));
-		locs->push_back(dest);
-		delete difs;
-		return locs;
-	}
-
-	if (checkNum(difs[0], 1, true) && !checkNum(difs[1], 1, true))
-	{
-		locs = new vector<Location>();
-		locs->push_back(dest);
-	}
-
-	_isFirstStep = false;
+	if (locs != nullptr && locs->size()) //only change this if the move was legal
+		_isFirstStep = false;
+	
 	delete difs;
 	return locs;
 }
 
-bool Pawn::checkNum(int toCheck, int lim, bool equel)
+bool Pawn::checkNum(int toCheck, int lim) //cant simply use abs because pawn only goes forward
 {
 	if (_isWhite)
-	{
-		if (equel)
-		{
-			return toCheck == lim;
-		}
-
-		else
-		{
-			return toCheck > lim;
-		}
-	}
+		return toCheck == lim;
 	
 	else
-	{
-		if (equel)
-			return -toCheck == lim;
-		else
-			return (toCheck < -lim);
-	}
+		return -toCheck == lim;
 }

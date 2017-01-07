@@ -25,7 +25,7 @@ vector<Location>* Knight::getMovePath(const Location& source, const Location& de
 	{
 		return path;
 	}
-	else if (abs(arr[0])+ abs(arr[1]) > 3)
+	else if (abs(arr[0])+ abs(arr[1]) != 3)
 	{
 		return nullptr;
 	}
