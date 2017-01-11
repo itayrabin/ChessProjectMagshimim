@@ -32,10 +32,11 @@ private:
 
 	void createBoard();
 	int checkCanMove(const Location& src, const Location& dest);
-	bool checkCheck(Location* king);
+	Location* checkCheck(Location* king);
 	void revertMove();
 	Location* findKing(bool isWhite);
 	void move(const Location& src, const Location& dest);
+	bool checkMate(bool _isWhiteTurn);
 };
 
 #endif

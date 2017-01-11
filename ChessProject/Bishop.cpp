@@ -31,6 +31,7 @@ vector<Location>* Bishop::getMovePath(const Location& source, const Location& de
 	}
 	else if (abs(arr[0]) != abs(arr[1]))
 	{
+		delete path;
 		return nullptr;
 	}
 	else

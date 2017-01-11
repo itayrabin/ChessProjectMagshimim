@@ -77,3 +77,48 @@ char King::createCharForString() const
 {
 	return (_isWhite ? 'K' : 'k');
 }
+
+vector<Location>* King::getAllPossibleMoves(const Location& me)
+{
+	vector<Location>* posbs = new vector < Location > ;
+	if (me.getX() != 0)
+	{
+		posbs->push_back(Location(me.getX() - 1, me.getY(), nullptr));
+		if (me.getY() != 0)
+		{
+			posbs->push_back(Location(me.getX() - 1, me.getY() - 1, nullptr));
+		}
+
+		if (me.getY() != 7)
+		{
+			posbs->push_back(Location(me.getX() - 1, me.getY() + 1, nullptr));
+		}
+	}
+
+	if (me.getX() != 7)
+	{
+		posbs->push_back(Location(me.getX() + 1, me.getY(), nullptr));
+		if (me.getY() != 0)
+		{
+			posbs->push_back(Location(me.getX() + 1, me.getY() - 1, nullptr));
+		}
+
+		if (me.getY() != 7)
+		{
+			posbs->push_back(Location(me.getX() + 1, me.getY() + 1, nullptr));
+		}
+	}
+
+	if (me.getY() != 0)
+	{
+		posbs->push_back(Location(me.getX(), me.getY() - 1, nullptr));
+	}
+
+	if (me.getY() != 7)
+	{
+		posbs->push_back(Location(me.getX(), me.getY() + 1, nullptr));
+	}
+
+	return posbs;
+}
+

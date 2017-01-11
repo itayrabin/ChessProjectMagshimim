@@ -11,6 +11,7 @@ public:
 	void setIsInCheck(bool isInCheck);
 	virtual char createCharForString() const;
 	virtual vector<Location>* getMovePath(const Location& source, const Location& dest);
+	vector<Location>* getAllPossibleMoves(const Location& me);
 
 private:
 	bool _isInCheck;

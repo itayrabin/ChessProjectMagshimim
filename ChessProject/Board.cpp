@@ -4,7 +4,7 @@
 /**
 This functions is creating a board object
 input:
-	none
+none
 */
 Board::Board()
 {
@@ -16,7 +16,7 @@ Board::Board()
 }
 
 /**
-This function is deleting the memory allocated 
+This function is deleting the memory allocated
 for board
 input: none
 */
@@ -41,9 +41,9 @@ Board::~Board()
 /**
 This function is creating a board for the start of the program
 input:
-	none
+none
 output:
-	none
+none
 */
 void Board::createBoard()
 {
@@ -52,46 +52,6 @@ void Board::createBoard()
 	{
 		_board[i] = new ChessPiece*[BOARD_SIZE]; //intalizing the array
 	}
-
-	//for (int i = 0; i < 2; i++)//adding black side
-	//{
-	//	for (int j = 0; j < BOARD_SIZE; j++)
-	//	{
-	//		if (j == 3 && i == 0) //add 1 black king
-	//		{
-	//			_board[i][j] = new King(false);
-	//
-	//		}
-	//		else
-	//		{
-	//			_board[i][j] = new Rook(false);
-	//		}
-	//	}
-	//}
-	//
-	//for (int i = 2; i < BOARD_SIZE - 2; i++)//adding nulls for empty spaces
-	//{
-	//	for (int j = 0; j < BOARD_SIZE; j++)
-	//	{
-	//		_board[i][j] = nullptr;
-	//	}
-	//}
-	//
-	//for (int i = BOARD_SIZE - 2; i < BOARD_SIZE; i++) //adding white side
-	//{
-	//	for (int j = 0; j < BOARD_SIZE; j++)
-	//	{
-	//		if (j == 3 && i == BOARD_SIZE - 1) //add 1 white king
-	//		{
-	//			_board[i][j] = new King(true);
-	//
-	//		}
-	//		else
-	//		{
-	//			_board[i][j] = new Rook(true);
-	//		}
-	//	}
-	//}
 
 	_board[0][0] = new Rook(false);
 	_board[0][1] = new Knight(false);
@@ -124,12 +84,12 @@ void Board::createBoard()
 }
 
 /*
-This function is creating the string for the start to 
+This function is creating the string for the start to
 send to the frontend
 input:
-	none
+none
 output:
-	char* - te string for the start
+char* - te string for the start
 
 */
 char* Board::createStringForStart()
@@ -137,7 +97,7 @@ char* Board::createStringForStart()
 	char* msg = new char[66];
 	int index = 0;
 	for (int i = 0; i < BOARD_SIZE; i++)
-	{	
+	{
 		for (int j = 0; j < BOARD_SIZE; j++)
 		{
 			if (_board[i][j] == nullptr)
@@ -159,9 +119,9 @@ char* Board::createStringForStart()
 /**
 This function is chenging back the board using the two caches
 input:
-	none
+none
 output:
-	none
+none
 */
 void Board::revertMove()
 {
@@ -174,10 +134,10 @@ This function is moving the piece in the source to destnation, and putting an em
 place in the source
 
 input:
-	const Location& src - the source of the move
-	const Location& dest - the move destenation
+const Location& src - the source of the move
+const Location& dest - the move destenation
 output:
-	none
+none
 */
 void Board::move(const Location& src, const Location& dest)
 {
@@ -197,7 +157,6 @@ void Board::move(const Location& src, const Location& dest)
 		_cache2 = nullptr;
 	}
 
-
 	//adding the new move to cache
 	_cache1 = new Location(src.getX(), src.getY(), _board[src.getX()][src.getY()]);
 	_cache2 = new Location(dest.getX(), dest.getY(), _board[dest.getX()][dest.getY()]);
@@ -212,11 +171,11 @@ void Board::move(const Location& src, const Location& dest)
 this function checking if a check was made
 
 input:
-	Location* king - the location of the king to do the check on
+Location* king - the location of the king to do the check on
 output:
-	true if check was made false otherwise
+true if check was made false otherwise
 */
-bool Board::checkCheck(Location* king)
+Location* Board::checkCheck(Location* king)
 {
 	Location* src = nullptr;
 	for (int i = 0; i < BOARD_SIZE; i++)//going on all the board
@@ -228,9 +187,7 @@ bool Board::checkCheck(Location* king)
 				if (checkCanMove(*(src = new Location(i, j, _board[i][j])), *king) == GOOD_MOVE)//cheking if the king can be eaten by enemy piece
 				{
 					//if yes returning true
-					src->setPieceInLoc(nullptr);
-					delete src;
-					return true;
+					return src;
 				}
 
 				src->setPieceInLoc(nullptr);
@@ -239,16 +196,16 @@ bool Board::checkCheck(Location* king)
 		}
 	}
 
-	return false;//if no check found, returning false
+	return nullptr;//if no check found, returning false
 }
 
 /**
 This function is checking the turn for valid move and returnon the current code
 input:
-	const Location& source - the source to move from
-	const Location& dest - the destenation to move to
+const Location& source - the source to move from
+const Location& dest - the destenation to move to
 output:
-	te move code (see board.h defines)
+te move code (see board.h defines)
 
 */
 int Board::checkTurn(const Location& source, Location& dest)
@@ -266,12 +223,6 @@ int Board::checkTurn(const Location& source, Location& dest)
 		return BAD_MOVE_SRC;
 	}
 
-	//cheking if there is same player as move player in the source
-	if (_board[dest.getX()][dest.getY()] != nullptr && _board[dest.getX()][dest.getY()]->isWhite() == _isWhiteTurn)
-	{
-		return BAD_MOVE_DEST;
-	}
-
 	dest.setPieceInLoc(_board[dest.getX()][dest.getY()]);
 	int rez = checkCanMove(source, dest);//checking if a valid move for the piece
 	dest.setPieceInLoc(nullptr);
@@ -280,7 +231,7 @@ int Board::checkTurn(const Location& source, Location& dest)
 	{
 		return rez;//retuning error if there is
 	}
-	
+
 	move(source, dest);//moving the piece
 
 	//check Self Check
@@ -289,13 +240,11 @@ int Board::checkTurn(const Location& source, Location& dest)
 	if (isInCheck)
 	{
 		//if there is self check reverting the move and returning the error code
-		revertMove(); 
+		revertMove();
 		king->setPieceInLoc(NULL);
 		delete king;
 		return BAD_MOVE_SELF_CHECK;
 	}
-
-	delete _cache2->getPieceInLoc();//deleting the cache if no need to revert
 
 	//cheking for check on the enemy
 	king = findKing(!_isWhiteTurn);
@@ -303,32 +252,47 @@ int Board::checkTurn(const Location& source, Location& dest)
 	if (isInCheck)
 	{
 		//if made a check returning the code
+		((King*)king->getPieceInLoc())->setIsInCheck(true);
 		king->setPieceInLoc(NULL);
-		delete king;
+		delete king; //king is a Location, dont be scared (again)
 		_isWhiteTurn = !_isWhiteTurn;
-		return GOOD_MOVE_CHECK;
+		return (checkMate(_isWhiteTurn) ? CHECK_MATE : GOOD_MOVE_CHECK);
 	}
-	
 
 	king->setPieceInLoc(NULL);
 	delete king;
 	_isWhiteTurn = !_isWhiteTurn;//changing the turn
-	return GOOD_MOVE;//returning good move 
+	//delete _cache2->getPieceInLoc();//deleting the cache if no need to revert
+	if (checkMate(_isWhiteTurn))
+	{
+		delete _cache2->getPieceInLoc();//deleting the cache if no need to revert
+		return CHECK_MATE;
+	}
+
+	delete _cache2->getPieceInLoc();//deleting the cache if no need to revert
+	return GOOD_MOVE;
 }
 
 /**
-This function if a specific piece can move from 
-source to dest 
+This function if a specific piece can move from
+source to dest
 
 input:
-	const Location& source - the source to move from
-	const Location& dest - the destenation to move to
+const Location& source - the source to move from
+const Location& dest - the destenation to move to
 output:
 
-	the move code
+the move code
 */
 int Board::checkCanMove(const Location& source, const Location& dest)
 {
+	//cheking if there is same player as move player in the source
+	if (_board[dest.getX()][dest.getY()] != nullptr &&
+		_board[dest.getX()][dest.getY()]->isWhite() == _board[source.getX()][source.getY()]->isWhite())
+	{
+		return BAD_MOVE_DEST;
+	}
+
 	vector<Location>* v = _board[source.getX()][source.getY()]->getMovePath(source, dest); //getting the answer from getMovePath
 	if (v == nullptr)//if null the piece cant do that move
 	{
@@ -352,12 +316,12 @@ int Board::checkCanMove(const Location& source, const Location& dest)
 }
 
 /**
-This function is finding and returning the location of 
-the king 
+This function is finding and returning the location of
+the king
 input:
-	iswhite - white or black
+iswhite - white or black
 output:
-	the king Location
+the king Location
 */
 Location* Board::findKing(bool isWhite)
 {
@@ -374,6 +338,90 @@ Location* Board::findKing(bool isWhite)
 
 	return NULL;//if not found returnng null
 }
+
+bool Board::checkMate(bool isWhite)
+{
+	//Phase 1: can the king escape the check
+	Location* kingLoc = findKing(isWhite);
+	bool isInCheck = ((King*)kingLoc->getPieceInLoc())->isInCheck();
+	vector<Location>* posbs = ((King*)kingLoc->getPieceInLoc())->getAllPossibleMoves(*kingLoc);
+	for (int i = 0; i < posbs->size(); i++)
+	{
+		if (checkCanMove(*kingLoc, (*posbs)[i]) == GOOD_MOVE)
+		{
+			move(*kingLoc, (*posbs)[i]);
+			(*posbs)[i].setPieceInLoc(kingLoc->getPieceInLoc());
+			if (checkCheck(&((*posbs)[i])))
+			{
+				(*posbs)[i].setPieceInLoc(nullptr);
+				revertMove();
+			}
+
+			else
+			{
+				(*posbs)[i].setPieceInLoc(nullptr);
+				revertMove();
+				delete posbs;
+				kingLoc->setPieceInLoc(nullptr);
+				delete kingLoc;
+				return false;
+			}
+		}
+	}
+
+	delete posbs; 
+
+	//phase 2 - checking if there is another piece that can block the mate
+	Location* threat = checkCheck(kingLoc);
+	if (threat)
+	{
+		vector<Location>* path = threat->getPieceInLoc()->getMovePath(*threat, *kingLoc);
+		for (int i = 0; i < BOARD_SIZE; i++)
+		{
+			for (int j = 0; j < BOARD_SIZE; j++)
+			{
+				if (_board[i][j] && _board[i][j]->isWhite() == isWhite && _board[i][j]->getType() != "King")
+				{
+					if (checkCanMove(Location(i, j, nullptr), *threat))
+					{
+						threat->setPieceInLoc(nullptr);
+						delete threat;
+						delete path;
+						kingLoc->setPieceInLoc(nullptr);
+						delete kingLoc;
+
+						return false;
+					}
+
+					for (int k = 0; k < path->size() - 1; k++)
+					{
+						if (checkCanMove(Location(i, j, nullptr), (*path)[k]))
+						{
+							threat->setPieceInLoc(nullptr);
+							delete threat;
+							delete path;
+							kingLoc->setPieceInLoc(nullptr);
+							delete kingLoc;
+
+							return false;
+						}
+					}
+				}
+			}
+		}
+	
+		threat->setPieceInLoc(nullptr);
+		delete threat;
+		delete path;
+	}
+
+	kingLoc->setPieceInLoc(nullptr);
+	delete kingLoc;
+	return isInCheck;
+}
+
+
+
 
 
 
