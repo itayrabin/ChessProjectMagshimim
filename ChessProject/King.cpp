@@ -52,7 +52,7 @@ vector<Location>* King::getMovePath(const Location& source, const Location& dest
 	vector<Location>* rez = nullptr;
 	int* dif = source.dif(dest); //get the offset between the src and dest
 
-	if (abs(dif[0]) <= 1 && abs(dif[1] <= 1)) //if it's in range of king
+	if (abs(dif[0]) <= 1 && abs(dif[1]) <= 1) //if it's in range of king
 	{
 		rez = new vector<Location>; //create the vector
 		if (!(dif[0] == 0 && dif[1] == 0)) //make sure it's not the same place
@@ -78,9 +78,18 @@ char King::createCharForString() const
 	return (_isWhite ? 'K' : 'k');
 }
 
+/*
+	this function creates a vector containing all of the places the
+	king can move to
+input-
+	the current location of the king
+output - 
+	all the possible places the king can go, respecting board bounderies
+*/
+
 vector<Location>* King::getAllPossibleMoves(const Location& me)
 {
-	vector<Location>* posbs = new vector < Location > ;
+	vector<Location>* posbs = new vector<Location>;
 	if (me.getX() != 0)
 	{
 		posbs->push_back(Location(me.getX() - 1, me.getY(), nullptr));

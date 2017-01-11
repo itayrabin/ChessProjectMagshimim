@@ -34,15 +34,15 @@ vector<Location>* Pawn::getMovePath(const Location& src, const Location& dest)
 		}
 	}
 
-	else if (difs[1] == 0)
+	else if (difs[1] == 0) //move only forward
 	{
-		if (checkNum(difs[0], 1))
+		if (checkNum(difs[0], 1)) //moves only 1 forward
 		{
 			locs = new vector<Location>;
 			locs->push_back(dest);
 		}
 
-		else if (checkNum(difs[0], 2) && _isFirstStep)
+		else if (checkNum(difs[0], 2) && _isFirstStep) //move 2 forward
 		{
 			locs = new vector<Location>;
 			locs->push_back(Location(src.getX() - difs[0] / 2, src.getY(), nullptr));

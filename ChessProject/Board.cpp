@@ -56,8 +56,8 @@ void Board::createBoard()
 	_board[0][0] = new Rook(false);
 	_board[0][1] = new Knight(false);
 	_board[0][2] = new Bishop(false);
-	_board[0][3] = new Queen(false);
-	_board[0][4] = new King(false);
+	_board[0][4] = new Queen(false);
+	_board[0][3] = new King(false);
 	_board[0][5] = new Bishop(false);
 	_board[0][6] = new Knight(false);
 	_board[0][7] = new Rook(false);
@@ -76,8 +76,8 @@ void Board::createBoard()
 	_board[7][0] = new Rook(true);
 	_board[7][1] = new Knight(true);
 	_board[7][2] = new Bishop(true);
-	_board[7][3] = new Queen(true);
-	_board[7][4] = new King(true);
+	_board[7][4] = new Queen(true);
+	_board[7][3] = new King(true);
 	_board[7][5] = new Bishop(true);
 	_board[7][6] = new Knight(true);
 	_board[7][7] = new Rook(true);
@@ -112,7 +112,7 @@ char* Board::createStringForStart()
 	}
 
 	msg[index++] = '0';//adding who starts
-	msg[index++] = '\0';//addin the end of string
+	msg[index++] = '\0';//adding the end of string
 	return msg;
 }
 
@@ -173,7 +173,7 @@ this function checking if a check was made
 input:
 Location* king - the location of the king to do the check on
 output:
-true if check was made false otherwise
+The location of the threatning piece if exists, NULL otherwise
 */
 Location* Board::checkCheck(Location* king)
 {
@@ -186,7 +186,7 @@ Location* Board::checkCheck(Location* king)
 			{
 				if (checkCanMove(*(src = new Location(i, j, _board[i][j])), *king) == GOOD_MOVE)//cheking if the king can be eaten by enemy piece
 				{
-					//if yes returning true
+					//if yes returning the Location
 					return src;
 				}
 
@@ -251,7 +251,8 @@ int Board::checkTurn(const Location& source, Location& dest)
 	isInCheck = checkCheck(king);
 	if (isInCheck)
 	{
-		//if made a check returning the code
+		//if a check was made, check if it is also a mate.
+		//if it was, return mate code, if not return check code
 		((King*)king->getPieceInLoc())->setIsInCheck(true);
 		king->setPieceInLoc(NULL);
 		delete king; //king is a Location, dont be scared (again)
@@ -262,8 +263,7 @@ int Board::checkTurn(const Location& source, Location& dest)
 	king->setPieceInLoc(NULL);
 	delete king;
 	_isWhiteTurn = !_isWhiteTurn;//changing the turn
-	//delete _cache2->getPieceInLoc();//deleting the cache if no need to revert
-	if (checkMate(_isWhiteTurn))
+	if (checkMate(_isWhiteTurn)) //check if a mate was done in this round
 	{
 		delete _cache2->getPieceInLoc();//deleting the cache if no need to revert
 		return CHECK_MATE;
@@ -339,16 +339,24 @@ Location* Board::findKing(bool isWhite)
 	return NULL;//if not found returnng null
 }
 
+/*
+	This function checks for a mate on a specific king
+input-
+	which king to check, the white or the bkack
+output-
+	true if the king is under mate, false otherwise
+*/
 bool Board::checkMate(bool isWhite)
 {
 	//Phase 1: can the king escape the check
-	Location* kingLoc = findKing(isWhite);
-	bool isInCheck = ((King*)kingLoc->getPieceInLoc())->isInCheck();
+	Location* kingLoc = findKing(isWhite); //find the king
+	bool isInCheck = ((King*)kingLoc->getPieceInLoc())->isInCheck(); //remember this
 	vector<Location>* posbs = ((King*)kingLoc->getPieceInLoc())->getAllPossibleMoves(*kingLoc);
 	for (int i = 0; i < posbs->size(); i++)
 	{
-		if (checkCanMove(*kingLoc, (*posbs)[i]) == GOOD_MOVE)
+		if (checkCanMove(*kingLoc, (*posbs)[i]) == GOOD_MOVE) //if the king can move to this location
 		{
+			//move the king, and check if it escapes the check
 			move(*kingLoc, (*posbs)[i]);
 			(*posbs)[i].setPieceInLoc(kingLoc->getPieceInLoc());
 			if (checkCheck(&((*posbs)[i])))
@@ -359,6 +367,7 @@ bool Board::checkMate(bool isWhite)
 
 			else
 			{
+				//if it does, return false
 				(*posbs)[i].setPieceInLoc(nullptr);
 				revertMove();
 				delete posbs;
@@ -372,7 +381,7 @@ bool Board::checkMate(bool isWhite)
 	delete posbs; 
 
 	//phase 2 - checking if there is another piece that can block the mate
-	Location* threat = checkCheck(kingLoc);
+	Location* threat = checkCheck(kingLoc); //get the threatning piece
 	if (threat)
 	{
 		vector<Location>* path = threat->getPieceInLoc()->getMovePath(*threat, *kingLoc);
@@ -380,9 +389,10 @@ bool Board::checkMate(bool isWhite)
 		{
 			for (int j = 0; j < BOARD_SIZE; j++)
 			{
+				//for each piece, check if it can eat the threat or get in it's path
 				if (_board[i][j] && _board[i][j]->isWhite() == isWhite && _board[i][j]->getType() != "King")
 				{
-					if (checkCanMove(Location(i, j, nullptr), *threat))
+					if (checkCanMove(Location(i, j, nullptr), *threat)) //check if can eat the threat
 					{
 						threat->setPieceInLoc(nullptr);
 						delete threat;
@@ -393,7 +403,7 @@ bool Board::checkMate(bool isWhite)
 						return false;
 					}
 
-					for (int k = 0; k < path->size() - 1; k++)
+					for (int k = 0; k < path->size() - 1; k++) //check if it can block it's path to the king
 					{
 						if (checkCanMove(Location(i, j, nullptr), (*path)[k]))
 						{

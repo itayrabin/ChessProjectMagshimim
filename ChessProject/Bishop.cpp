@@ -1,7 +1,6 @@
 #include "Bishop.h"
 #include <cmath>
 
-
 Bishop::Bishop(bool isWhite) :ChessPiece(isWhite, "Bishop")
 {
 }
